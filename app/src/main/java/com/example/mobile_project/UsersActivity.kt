@@ -1,5 +1,6 @@
 package com.example.mobile_project
 
+import android.content.Intent
 import  android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,7 @@ class UsersActivity : AppCompatActivity() {
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
         val editTextPassword = findViewById<EditText>(R.id.edit_password)
 
+        // Add Create button
         findViewById<Button>(R.id.btn_create).setOnClickListener {
             val name = editTextName.text.toString().trim()
             val email = editTextEmail.text.toString().trim()
@@ -42,6 +44,7 @@ class UsersActivity : AppCompatActivity() {
             }
         }
 
+        // Add Read button
         findViewById<Button>(R.id.btn_read).setOnClickListener {
             val email = editTextEmail.text.toString().trim()
 
@@ -57,6 +60,7 @@ class UsersActivity : AppCompatActivity() {
             }
         }
 
+        // Add Update button
         findViewById<Button>(R.id.btn_update).setOnClickListener {
             val name = editTextName.text.toString().trim()
             val email = editTextEmail.text.toString().trim()
@@ -79,7 +83,7 @@ class UsersActivity : AppCompatActivity() {
             }
         }
 
-
+        // Add Delete button
         findViewById<Button>(R.id.btn_delete).setOnClickListener {
             val email = editTextEmail.text.toString().trim()
 
@@ -93,6 +97,22 @@ class UsersActivity : AppCompatActivity() {
                 }
             } else {
                 showToast("Please enter an email")
+            }
+        }
+
+        // Add Save button
+        findViewById<Button>(R.id.btn_save).setOnClickListener {
+            val name = editTextName.text.toString().trim()
+            val email = editTextEmail.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
+
+            val success = dbHelper.insertUserdata(name, email, password)
+            if (success) {
+                showToast("Details saved successfully")
+                startActivity(Intent(this, Userdashboard::class.java))
+                finish() // Finish current activity
+            } else {
+                showToast("Failed to save details")
             }
         }
 
