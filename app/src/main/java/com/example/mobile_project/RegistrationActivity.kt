@@ -36,31 +36,43 @@ class RegistrationActivity : AppCompatActivity() {
             val confirmPassword = editTextConfirmPassword.text.toString().trim()
 
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                showToast("Please fill in all fields")
+            } else if (!isValidEmail(email)) {
+                showToast("Invalid email format")
             } else if (password != confirmPassword) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                showToast("Passwords do not match")
+            } else if (!isValidPassword(password)) {
+                showToast("Password must be at least 6 characters long")
             } else {
                 // Save user credentials securely (e.g., SharedPreferences, local database)
                 val success = dbHelper.insertUserdata(name, email, password)
                 if (success) {
-                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-
-                    // Navigate to the login page
+                    showToast("Registration successful")
                     navigateToLogin()
                 } else {
-                    Toast.makeText(this, "Failed to register user", Toast.LENGTH_SHORT).show()
+                    showToast("Failed to register user")
                 }
             }
         }
 
         textViewAlreadyHaveAccount.setOnClickListener {
-            // Navigate to the login page
             navigateToLogin()
         }
     }
 
+    private fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        return password.length >= 6
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun navigateToLogin() {
-        // Navigate to the login activity
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
