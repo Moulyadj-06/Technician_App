@@ -1,19 +1,31 @@
 package com.example.mobile_project
 
 import User
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Userdashboard : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userdashboard)
+
+        // Retrieve the username passed from LoginActivity
+        val username = intent.getStringExtra("username")
+
+        // Display the greeting with the username
+        val greetingText = "Welcome!!, " +
+                "$username"
+        findViewById<TextView>(R.id.textViewGreeting).text = greetingText
+
 
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)

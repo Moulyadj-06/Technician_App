@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.mobile_project.DBHelper
 import com.example.mobile_project.R
 
@@ -18,6 +19,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+
 
         val editTextName = findViewById<EditText>(R.id.edit_name)
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
@@ -77,4 +79,7 @@ class RegistrationActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
+
 }

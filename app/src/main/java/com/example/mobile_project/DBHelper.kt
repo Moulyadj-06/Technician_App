@@ -1,6 +1,7 @@
 package com.example.mobile_project
 
 import User
+import android.accounts.AccountManager.KEY_PASSWORD
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -151,6 +152,15 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val result = db.delete(TABLE_NAME, whereClause, whereArgs)
         db.close()
         return result != -1
+    }
+    fun updatePassword(email: String, newPassword: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_PASSWORD, newPassword)
+
+        val updatedRows = db.update(TABLE_NAME, contentValues, "$COLUMN_EMAIL = ?", arrayOf(email))
+        db.close()
+        return updatedRows > 0
     }
 
 }

@@ -1,12 +1,15 @@
 package com.example.mobile_project
 
+import User
 import android.content.Intent
 import  android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.mobile_project.DBHelper
 
 class UsersActivity : AppCompatActivity() {
@@ -21,9 +24,11 @@ class UsersActivity : AppCompatActivity() {
 
         dbHelper = DBHelper(this)
 
+
         val editTextName = findViewById<EditText>(R.id.edit_name)
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
         val editTextPassword = findViewById<EditText>(R.id.edit_password)
+
 
         // Add Create button
         findViewById<Button>(R.id.btn_create).setOnClickListener {
@@ -106,15 +111,20 @@ class UsersActivity : AppCompatActivity() {
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
 
-            val success = dbHelper.insertUserdata(name, email, password)
-            if (success) {
-                showToast("Details saved successfully")
-                startActivity(Intent(this, Userdashboard::class.java))
-                finish() // Finish current activity
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                showToast("Please fill in all fields")
             } else {
-                showToast("Failed to save details")
+                val success = dbHelper.insertUserdata(name, email, password)
+                if (success) {
+                    showToast("Details saved successfully")
+                    startActivity(Intent(this, Userdashboard::class.java))
+                    finish() // Finish current activity
+                } else {
+                    showToast("Failed to save details")
+                }
             }
         }
+
 
     }
 

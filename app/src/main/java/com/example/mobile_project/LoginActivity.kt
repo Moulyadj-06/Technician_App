@@ -23,14 +23,6 @@ class LoginActivity : AppCompatActivity() {
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
         val editTextPassword = findViewById<EditText>(R.id.edit_password)
 
-        // Retrieve email and password from intent extras
-        val email = intent.getStringExtra("email")
-        val password = intent.getStringExtra("password")
-
-        // Set the retrieved email and password to the corresponding EditText fields
-        editTextEmail.setText(email)
-        editTextPassword.setText(password)
-
         loginButton.setOnClickListener {
             val enteredEmail = editTextEmail.text.toString().trim()
             val enteredPassword = editTextPassword.text.toString().trim()
@@ -44,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 // Successful login, navigate to the MainActivity
                 Log.i("Login: ", "User successfully logged In")
                 val intent = Intent(this, Userdashboard::class.java)
+                intent.putExtra("username", enteredEmail) // Pass the username to Userdashboard
                 startActivity(intent)
                 finish()
             } else {
@@ -91,9 +84,49 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun resetPassword(email: String) {
-        // Implement logic to send password reset email
-        // You can retrieve user information from the database based on the provided email
-        // and then send a password reset email if the user exists
-        // You can utilize dbHelper to interact with SQLite database for password reset
+        val dbHelper = DBHelper(this)
+
+        // Check if user exists based on the provided email
+        val user = dbHelper.getUserByEmail(email)
+
+        if (user != null) {
+            // User exists, generate a new random password
+            val newPassword = generateRandomPassword()
+
+            // Update the user's password in the database
+            val success = dbHelper.updatePassword(email, newPassword)
+
+            if (success) {
+                // Send password reset email
+                sendPasswordResetEmail(email, newPassword)
+                showToast("Password reset email sent")
+            } else {
+                showToast("Failed to reset password. Please try again.")
+            }
+        } else {
+            showToast("User with this email does not exist.")
+        }
     }
+
+    private fun generateRandomPassword(): String {
+        // Generate a random alphanumeric password
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..8)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
+
+    private fun sendPasswordResetEmail(email: String, newPassword: String) {
+        // Implement logic to send password reset email
+        // This could involve using an email sending library or an external service
+        // For example, you could use Firebase Authentication to send a password reset email
+        // Here, we simply print the email content to the log for demonstration purposes
+        val emailContent = "Your new password is: $newPassword"
+        Log.d("PasswordReset", "Email content: $emailContent")
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

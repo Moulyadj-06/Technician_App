@@ -22,4 +22,17 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="not_yet_registered_signup">Not yet registered? Signup</string>
     <string name="profile_image" />
+    <string name="description_aboutus">
+    The Technician App revolutionizes the vehicle assistance
+    industry by offering a user-friendly platform for swift
+    connection with skilled technicians, eliminating
+    the need for automated calls and long waiting times.
+    Addressing the pressing need for efficient vehicle
+    breakdown assistance, it provides users with instant
+    access to nearby repair services. Through seamless
+    registration, booking, and payment processes, users
+    can quickly connect with skilled technicians,
+    facilitating prompt repairs and enhancing overall
+    satisfaction.
+</string>
 </resources>
