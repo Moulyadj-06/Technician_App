@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Userdashboard : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -18,15 +20,28 @@ class Userdashboard : AppCompatActivity(), BottomNavigationView.OnNavigationItem
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userdashboard)
 
+        // Redirect to FeedbackActivity
+        val floatingActionButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        floatingActionButton.setOnClickListener {
+            val intent = Intent(this, Feedback::class.java)
+            startActivity(intent)
+        }
+
         // Retrieve the username passed from LoginActivity
         val username = intent.getStringExtra("username")
 
         // Display the greeting with the username
-        val greetingText = "Welcome!!, " +
+        val greetingText = "Welcome!!, \n" +
                 "$username"
         findViewById<TextView>(R.id.textViewGreeting).text = greetingText
 
-
+        //on click of image button 4
+        val imageButton4 = findViewById<ImageButton>(R.id.imageButton4)
+        imageButton4.setOnClickListener {
+            // Open a new activity
+            val intent = Intent(this, Carservice::class.java)
+            startActivity(intent)
+        }
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)

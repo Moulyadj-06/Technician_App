@@ -79,7 +79,7 @@
         android:layout_gravity="center"
         android:padding="8dp"
         android:text="@string/not_yet_registered_signup"
-        android:textColor="@color/lavender"
+        android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

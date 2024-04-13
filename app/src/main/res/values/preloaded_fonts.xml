@@ -3,8 +3,15 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/adamina</item>
         <item>@font/alegreya_sc_bold_italic</item>
+        <item>@font/almendra_bold</item>
         <item>@font/amarante</item>
+        <item>@font/andada</item>
         <item>@font/cormorant_sc_bold</item>
+        <item>@font/coustard_black</item>
+        <item>@font/goldman_bold</item>
+        <item>@font/graduate</item>
+        <item>@font/lusitana_bold</item>
         <item>@font/nanum_myeongjo_extrabold</item>
+
     </array>
 </resources>

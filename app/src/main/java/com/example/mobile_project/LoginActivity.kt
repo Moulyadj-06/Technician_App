@@ -1,6 +1,9 @@
 package com.example.mobile_project
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +21,14 @@ class LoginActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+
+        // Check network connectivity before proceeding with login
+        if (!isNetworkAvailable()) {
+            // Network is not available, show a toast message to notify the user
+            Toast.makeText(this, "Please connect to the internet to log in.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
 
         val loginButton = findViewById<Button>(R.id.btn_login)
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
@@ -51,11 +62,13 @@ class LoginActivity : AppCompatActivity() {
             // Implement forgot password functionality using SQLite
             val builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.activity_forgot_password, null)
-            val userEmail = view.findViewById<EditText>(R.id.editBox)
+            val username = view.findViewById<EditText>(R.id.editBox)
+            val userEmail = view.findViewById<EditText>(R.id.editBox1)
             builder.setView(view)
             val dialog = builder.create()
             view.findViewById<Button>(R.id.btnReset).setOnClickListener {
                 resetPassword(userEmail.text.toString())
+                resetPassword(username.text.toString())
                 dialog.dismiss()
             }
             view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
@@ -81,6 +94,14 @@ class LoginActivity : AppCompatActivity() {
 
         // Check if the entered credentials belong to a regular user
         return dbHelper.checkCredentials(email, password)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities != null &&
+                networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     private fun resetPassword(email: String) {

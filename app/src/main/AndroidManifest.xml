@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mobile_project">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,33 +16,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mobile_project"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Payment"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".Feedback"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".Carservice"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".Forgot_password"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
-
         <activity
             android:name=".UsersActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
-
         <activity
             android:name=".Userdashboard"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light" />
-
         <activity
             android:name=".RegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light"
             tools:ignore="DuplicateActivity" />
-
         <activity
             android:name=".WelcomeActivity"
             android:exported="true"

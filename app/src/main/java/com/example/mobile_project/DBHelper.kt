@@ -30,6 +30,20 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 "$COLUMN_NAME TEXT," +
                 "$COLUMN_EMAIL TEXT," +
                 "$COLUMN_PASSWORD TEXT)"
+
+        // Table Attributes for Feedback table
+        private const val TABLE_FEEDBACK = "Feedback"
+        private const val COLUMN_FEEDBACK_ID = "id"
+        private const val COLUMN_FEEDBACK_NAME = "name"
+        private const val COLUMN_FEEDBACK_RATING = "rating"
+        private const val COLUMN_FEEDBACK_DESCRIPTION = "description"
+
+        // SQL Create Table Statement for Feedback table
+        private const val TABLE_FEEDBACK_CREATE = "CREATE TABLE IF NOT EXISTS $TABLE_FEEDBACK (" +
+                "$COLUMN_FEEDBACK_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$COLUMN_FEEDBACK_NAME TEXT," +
+                "$COLUMN_FEEDBACK_RATING REAL," +
+                "$COLUMN_FEEDBACK_DESCRIPTION TEXT)"
     }
 
     /**
@@ -38,6 +52,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
      */
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
         sqLiteDatabase.execSQL(TABLE_CREATE)
+        sqLiteDatabase.execSQL(TABLE_FEEDBACK_CREATE)
     }
 
     /**
@@ -77,6 +92,17 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.close()
         return result != -1L
     }
+    fun insertFeedbackData(name: String, description: String, rating: Float): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(COLUMN_FEEDBACK_NAME, name)
+        values.put(COLUMN_FEEDBACK_DESCRIPTION, description)
+        values.put(COLUMN_FEEDBACK_RATING, rating)
+        val success = db.insert(TABLE_FEEDBACK, null, values)
+        db.close()
+        return success != -1L
+    }
+
 
     /**
      * Checks user credentials against the database.

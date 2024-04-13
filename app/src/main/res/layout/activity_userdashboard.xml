@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="#8991E3"
     tools:context=".Userdashboard">
 
     <!-- Main content -->
@@ -43,7 +44,8 @@
             app:layout_constraintBottom_toTopOf="@id/nav_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewGreeting">
+            app:layout_constraintTop_toBottomOf="@id/textViewGreeting"
+            app:layout_constraintVertical_bias="1.0">
 
 
             <FrameLayout
@@ -70,7 +72,7 @@
             android:layout_height="65dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.036"
@@ -80,6 +82,7 @@
             android:id="@+id/textView"
             android:layout_width="250dp"
             android:layout_height="37dp"
+            android:fontFamily="@font/lusitana_bold"
             android:gravity="center_horizontal"
             android:text="ABOUT US"
             android:textColor="#D81414"
@@ -97,15 +100,83 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:fontFamily="@font/almendra_bold"
+            android:justificationMode="inter_word"
             android:padding="20dp"
             android:text="@string/description_aboutus"
-            android:justificationMode="inter_word"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/nav_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.36" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="79dp"
+            android:layout_height="67dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.084"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.673"
+            app:srcCompat="@drawable/car_service_img" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="222dp"
+            android:layout_height="46dp"
+            android:fontFamily="@font/graduate"
+            android:text="@string/textview"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.566"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.668" />
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.085"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.803"
+            app:srcCompat="@drawable/car_info_img" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="221dp"
+            android:layout_height="47dp"
+            android:text="@string/textview1"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:fontFamily="@font/graduate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.568"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.783" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="57dp"
+            android:layout_height="52dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.83"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.873"
+            app:srcCompat="@drawable/feedback_img" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

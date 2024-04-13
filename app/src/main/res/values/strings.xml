@@ -35,4 +35,6 @@
     facilitating prompt repairs and enhancing overall
     satisfaction.
 </string>
+    <string name="textview">Car Breakdown Service</string>
+    <string name="textview1">Car Information</string>
 </resources>
