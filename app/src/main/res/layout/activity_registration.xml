@@ -88,13 +88,13 @@
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="199dp"
-        android:layout_height="48dp"
+        android:layout_width="214dp"
+        android:layout_height="75dp"
         android:layout_marginBottom="116dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
         android:background="@drawable/button_shapes"
         android:text="@string/btn_register"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

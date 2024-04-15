@@ -84,17 +84,28 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun isValidCredentials(email: String, password: String): Boolean {
-        // Query the database to check if the entered email and password are valid
-        val dbHelper = DBHelper(this)
-
         // Check if the entered credentials belong to an admin user
         if (email == "admin@example.com" && password == "admin000") {
+            // Show a toast message
+            Toast.makeText(this, "Logging in as admin...", Toast.LENGTH_SHORT).show()
+
+            // Navigate to admin dashboard
+            val intent = Intent(this, AdminDashboard::class.java)
+            startActivity(intent)
+
+            // Finish the current activity to prevent the user from going back to the login screen
+            finish()
+
+            // Return true for admin user
             return true
         }
 
+        // For regular users, perform the database check
+        val dbHelper = DBHelper(this)
         // Check if the entered credentials belong to a regular user
         return dbHelper.checkCredentials(email, password)
     }
+
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

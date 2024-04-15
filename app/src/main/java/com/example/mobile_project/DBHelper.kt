@@ -15,16 +15,16 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     companion object {
         // Database Attributes
         private const val DATABASE_NAME = "customers.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 6
 
-        // Table Attributes
+        // Table Attributes for User_details table
         private const val TABLE_NAME = "User_details"
         private const val COLUMN_ID = "id"
         private const val COLUMN_NAME = "name"
         private const val COLUMN_EMAIL = "email"
         private const val COLUMN_PASSWORD = "password"
 
-        // SQL Create Table Statement
+        // SQL Create Table Statement for User_details table
         private const val TABLE_CREATE = "CREATE TABLE IF NOT EXISTS $TABLE_NAME (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_NAME TEXT," +
@@ -44,44 +44,41 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 "$COLUMN_FEEDBACK_NAME TEXT," +
                 "$COLUMN_FEEDBACK_RATING REAL," +
                 "$COLUMN_FEEDBACK_DESCRIPTION TEXT)"
+
+        // Table Attributes for Service_requests table
+        private const val TABLE_SERVICE_REQUESTS = "Service_requests"
+        private const val COLUMN_SERVICE_ID = "id"
+        private const val COLUMN_SERVICE_ADDRESS = "address"
+        private const val COLUMN_SERVICE_USERNAME = "username"
+        private const val COLUMN_SERVICE_PHONE_NUMBER = "phoneNumber"
+
+        // SQL Create Table Statement for Service_requests table
+        private const val TABLE_SERVICE_REQUESTS_CREATE = "CREATE TABLE IF NOT EXISTS $TABLE_SERVICE_REQUESTS (" +
+                "$COLUMN_SERVICE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$COLUMN_SERVICE_ADDRESS TEXT," +
+                "$COLUMN_SERVICE_USERNAME TEXT," +
+                "$COLUMN_SERVICE_PHONE_NUMBER TEXT)"
+
     }
 
-    /**
-     * Creates the database and required table.
-     * @param sqLiteDatabase the created database object.
-     */
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
         sqLiteDatabase.execSQL(TABLE_CREATE)
         sqLiteDatabase.execSQL(TABLE_FEEDBACK_CREATE)
+        sqLiteDatabase.execSQL(TABLE_SERVICE_REQUESTS_CREATE)
     }
 
-    /**
-     * Enables foreign key constraints.
-     * @param sqLiteDatabase the configured database object.
-     */
     override fun onConfigure(sqLiteDatabase: SQLiteDatabase) {
         sqLiteDatabase.setForeignKeyConstraintsEnabled(true)
         super.onConfigure(sqLiteDatabase)
     }
 
-    /**
-     * Updates the database and removes the table.
-     * @param sqLiteDatabase the updated database object.
-     * @param oldVersion the old database version.
-     * @param newVersion the new database version.
-     */
     override fun onUpgrade(sqLiteDatabase: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_FEEDBACK")
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_SERVICE_REQUESTS")
         onCreate(sqLiteDatabase)
     }
 
-    /**
-     * Inserts user data into the database.
-     * @param name the name of the user.
-     * @param email the email of the user.
-     * @param password the password of the user.
-     * @return true if the insertion is successful, false otherwise.
-     */
     fun insertUserdata(name: String, email: String, password: String): Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -92,24 +89,60 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.close()
         return result != -1L
     }
-    fun insertFeedbackData(name: String, description: String, rating: Float): Boolean {
-        val db = this.writableDatabase
+
+    fun insertFeedbackData(name: String, rating: Float, description: String): Boolean {
+        val db = writableDatabase
         val values = ContentValues()
         values.put(COLUMN_FEEDBACK_NAME, name)
-        values.put(COLUMN_FEEDBACK_DESCRIPTION, description)
         values.put(COLUMN_FEEDBACK_RATING, rating)
+        values.put(COLUMN_FEEDBACK_DESCRIPTION, description)
         val success = db.insert(TABLE_FEEDBACK, null, values)
         db.close()
         return success != -1L
     }
 
+    fun insertServiceRequest(address: String, username: String, phoneNumber: String): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_SERVICE_ADDRESS, address)
+        contentValues.put(COLUMN_SERVICE_USERNAME, username)
+        contentValues.put(COLUMN_SERVICE_PHONE_NUMBER, phoneNumber)
+        val result = db.insert(TABLE_SERVICE_REQUESTS, null, contentValues)
+        db.close()
+        return result != -1L
+    }
 
-    /**
-     * Checks user credentials against the database.
-     * @param email the email of the user.
-     * @param password the password of the user.
-     * @return true if the credentials are valid, false otherwise.
-     */
+    fun getAllServiceRequests(): ArrayList<String> {
+        val serviceRequests: ArrayList<String> = ArrayList()
+        val db = this.readableDatabase
+        val cursor: Cursor? = db.rawQuery("SELECT * FROM $TABLE_SERVICE_REQUESTS", null)
+        cursor?.let {
+            val addressIndex = cursor.getColumnIndex(COLUMN_SERVICE_ADDRESS)
+            val usernameIndex = cursor.getColumnIndex(COLUMN_SERVICE_USERNAME)
+            val phoneNumberIndex = cursor.getColumnIndex(COLUMN_SERVICE_PHONE_NUMBER)
+
+            while (cursor.moveToNext()) {
+                val address = cursor.getString(addressIndex)
+                val username = cursor.getString(usernameIndex)
+                val phoneNumber = cursor.getString(phoneNumberIndex)
+                val serviceRequest = "Address: $address, Username: $username, Phone Number: $phoneNumber"
+                serviceRequests.add(serviceRequest)
+            }
+            cursor.close()
+        }
+        db.close()
+        return serviceRequests
+    }
+
+
+
+    private fun hashPassword(password: String): String {
+        val bytes = password.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.fold("", { str, it -> str + "%02x".format(it) })
+    }
+
     fun checkCredentials(email: String, password: String): Boolean {
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_EMAIL = ? AND $COLUMN_PASSWORD = ?"
@@ -117,18 +150,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val isValid = cursor.count > 0
         cursor.close()
         return isValid
-    }
-
-    /**
-     * Hashes the password using SHA-256 algorithm.
-     * @param password the password to be hashed.
-     * @return the hashed password.
-     */
-    private fun hashPassword(password: String): String {
-        val bytes = password.toByteArray()
-        val md = MessageDigest.getInstance("SHA-256")
-        val digest = md.digest(bytes)
-        return digest.fold("", { str, it -> str + "%02x".format(it) })
     }
 
     fun getUserByEmail(email: String): User {
@@ -150,11 +171,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                     password = cursor.getString(passwordIndex)
                 )
             } else {
-                // Handle the case where one or more columns are not found
                 Log.e("CursorError", "One or more columns not found in cursor")
             }
         } else {
-            // Handle the case where the cursor is empty
             Log.e("CursorError", "Cursor is empty")
         }
         cursor.close()
@@ -171,6 +190,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.close()
         return result != -1
     }
+
     fun deleteUserByEmail(email: String): Boolean {
         val db = this.writableDatabase
         val whereClause = "$COLUMN_EMAIL = ?"
@@ -179,14 +199,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.close()
         return result != -1
     }
+
     fun updatePassword(email: String, newPassword: String): Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_PASSWORD, newPassword)
-
         val updatedRows = db.update(TABLE_NAME, contentValues, "$COLUMN_EMAIL = ?", arrayOf(email))
         db.close()
         return updatedRows > 0
     }
-
 }

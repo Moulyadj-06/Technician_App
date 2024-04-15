@@ -37,4 +37,5 @@
 </string>
     <string name="textview">Car Breakdown Service</string>
     <string name="textview1">Car Information</string>
+    <string name="amount_to_pay_format">Amount to Pay: %d</string>
 </resources>
