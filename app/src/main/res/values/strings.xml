@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Technician_App</string>
+    <string name="app_name">Technician App</string>
     <string name="welcome_to_my_app">WELCOME TO TECHNICIAN APP</string>
     <string name="Register">Register</string>
     <string name="image_description">A Technician Troubleshooting Technical Issues.</string>
