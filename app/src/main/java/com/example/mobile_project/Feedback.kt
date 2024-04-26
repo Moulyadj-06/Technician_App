@@ -59,4 +59,6 @@ class Feedback : AppCompatActivity() {
         startActivity(intent)
         finish() // Finish the current activity so that the user cannot go back to it
     }
+
+
 }
