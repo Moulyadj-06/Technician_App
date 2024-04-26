@@ -45,10 +45,10 @@ class Feedback : AppCompatActivity() {
                 val success = dbHelper.insertFeedbackData(name, rating, description)
 
                 if (success) {
-                    Toast.makeText(this, "Feedback submitted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "FEEDBACK SUBMITTED SUCCESSFULLY", Toast.LENGTH_SHORT).show()
                     navigateToUserdashboard()
                 } else {
-                    Toast.makeText(this, "Failed to submit feedback", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "FAILED TO SUBMIT THE FEEDBACK", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -59,6 +59,4 @@ class Feedback : AppCompatActivity() {
         startActivity(intent)
         finish() // Finish the current activity so that the user cannot go back to it
     }
-
-
 }

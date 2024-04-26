@@ -28,8 +28,6 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please connect to the internet to log in.", Toast.LENGTH_SHORT).show()
             return
         }
-
-
         val loginButton = findViewById<Button>(R.id.btn_login)
         val editTextEmail = findViewById<EditText>(R.id.edit_email)
         val editTextPassword = findViewById<EditText>(R.id.edit_password)
@@ -160,6 +158,4 @@ class LoginActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-
 }
