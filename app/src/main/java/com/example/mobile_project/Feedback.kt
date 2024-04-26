@@ -52,9 +52,6 @@ class Feedback : AppCompatActivity() {
                 }
             }
         }
-
-
-
     }
 
     private fun navigateToUserdashboard() {
