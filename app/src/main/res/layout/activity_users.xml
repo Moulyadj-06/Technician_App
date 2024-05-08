@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCE899"
+    android:background="#5FA6A6"
     tools:context=".UsersActivity">
 
     <!-- User Profile Fields -->

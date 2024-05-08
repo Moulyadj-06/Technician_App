@@ -15,7 +15,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     companion object {
         // Database Attributes
         private const val DATABASE_NAME = "customers.db"
-        private const val DATABASE_VERSION = 9
+        private const val DATABASE_VERSION = 10
 
         // Table Attributes for User_details table
         private const val TABLE_NAME = "User_details"
@@ -95,6 +95,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_FEEDBACK")
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_SERVICE_REQUESTS")
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS $TABLE_PAYMENT")
         onCreate(sqLiteDatabase)
     }
 

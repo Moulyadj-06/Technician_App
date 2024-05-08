@@ -77,6 +77,16 @@ class UsersActivity : AppCompatActivity() {
                     val success = dbHelper.updateUser(user.id, name, email, password)
                     if (success) {
                         showToast("User details updated successfully")
+
+                        // Update user profile information in the data source
+                        // Example: Update user information in a database
+
+                        // After updating, navigate back to the Userdashboard activity
+                        val intent = Intent(this, Userdashboard::class.java)
+                        intent.putExtra("username", name) // Pass updated username
+                        // Pass other updated user information if needed
+                        startActivity(intent)
+                        finish() // Finish the current activity
                     } else {
                         showToast("Failed to update user details")
                     }
@@ -88,6 +98,7 @@ class UsersActivity : AppCompatActivity() {
             }
         }
 
+
         // Add Delete button
         findViewById<Button>(R.id.btn_delete).setOnClickListener {
             val email = editTextEmail.text.toString().trim()
@@ -96,7 +107,9 @@ class UsersActivity : AppCompatActivity() {
                 val success = dbHelper.deleteUserByEmail(email)
                 if (success) {
                     showToast("User deleted successfully")
+                    startActivity(Intent(this, WelcomeActivity::class.java))
                     clearEditTexts(editTextName, editTextEmail, editTextPassword)
+                    finish() // Finish current activity
                 } else {
                     showToast("Failed to delete user")
                 }
