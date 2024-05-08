@@ -15,7 +15,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     companion object {
         // Database Attributes
         private const val DATABASE_NAME = "customers.db"
-        private const val DATABASE_VERSION = 6
+        private const val DATABASE_VERSION = 9
 
         // Table Attributes for User_details table
         private const val TABLE_NAME = "User_details"
@@ -48,16 +48,34 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         // Table Attributes for Service_requests table
         private const val TABLE_SERVICE_REQUESTS = "Service_requests"
         private const val COLUMN_SERVICE_ID = "id"
-        private const val COLUMN_SERVICE_ADDRESS = "address"
         private const val COLUMN_SERVICE_USERNAME = "username"
+        private const val COLUMN_SERVICE_ADDRESS = "address"
+        private const val COLUMN_SERVICE_PROBLEM = "problem"  // New column for the problem
         private const val COLUMN_SERVICE_PHONE_NUMBER = "phoneNumber"
 
         // SQL Create Table Statement for Service_requests table
         private const val TABLE_SERVICE_REQUESTS_CREATE = "CREATE TABLE IF NOT EXISTS $TABLE_SERVICE_REQUESTS (" +
                 "$COLUMN_SERVICE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "$COLUMN_SERVICE_ADDRESS TEXT," +
                 "$COLUMN_SERVICE_USERNAME TEXT," +
+                "$COLUMN_SERVICE_ADDRESS TEXT," +
+                "$COLUMN_SERVICE_PROBLEM TEXT," +  // Include the new problem column
                 "$COLUMN_SERVICE_PHONE_NUMBER TEXT)"
+
+
+        // Table Attributes for Payment table
+        private const val TABLE_PAYMENT = "Payment"
+        private const val COLUMN_PAYMENT_ID = "id"
+        private const val COLUMN_PAYMENT_AMOUNT = "amount"
+        private const val COLUMN_PAYMENT_METHOD = "method"
+        private const val COLUMN_PAYMENT_USERNAME = "username" // New column for username
+
+        // SQL Create Table Statement for Payment table
+        private const val TABLE_PAYMENT_CREATE = "CREATE TABLE IF NOT EXISTS $TABLE_PAYMENT (" +
+                "$COLUMN_PAYMENT_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "$COLUMN_PAYMENT_AMOUNT INTEGER," +
+                "$COLUMN_PAYMENT_METHOD TEXT," +
+                "$COLUMN_PAYMENT_USERNAME TEXT)"
+
 
     }
 
@@ -65,6 +83,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         sqLiteDatabase.execSQL(TABLE_CREATE)
         sqLiteDatabase.execSQL(TABLE_FEEDBACK_CREATE)
         sqLiteDatabase.execSQL(TABLE_SERVICE_REQUESTS_CREATE)
+        sqLiteDatabase.execSQL(TABLE_PAYMENT_CREATE)
     }
 
     override fun onConfigure(sqLiteDatabase: SQLiteDatabase) {
@@ -101,15 +120,29 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return success != -1L
     }
 
-    fun insertServiceRequest(address: String, username: String, phoneNumber: String): Boolean {
+    fun insertServiceRequest(username: String, address: String, problem: String, phoneNumber: String): Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(COLUMN_SERVICE_ADDRESS, address)
         contentValues.put(COLUMN_SERVICE_USERNAME, username)
+        contentValues.put(COLUMN_SERVICE_ADDRESS, address)
+        contentValues.put(COLUMN_SERVICE_PROBLEM, problem)
         contentValues.put(COLUMN_SERVICE_PHONE_NUMBER, phoneNumber)
         val result = db.insert(TABLE_SERVICE_REQUESTS, null, contentValues)
         db.close()
         return result != -1L
+    }
+
+
+    /// Add a method to insert payment data into the Payment table
+    fun insertPaymentData(username: String, amount: Int, method: String): Boolean {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put(COLUMN_PAYMENT_AMOUNT, amount)
+        values.put(COLUMN_PAYMENT_METHOD, method)
+        values.put(COLUMN_PAYMENT_USERNAME, username) // Insert username into the database
+        val success = db.insert(TABLE_PAYMENT, null, values)
+        db.close()
+        return success != -1L
     }
 
     fun getAllServiceRequests(): ArrayList<String> {

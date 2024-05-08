@@ -21,11 +21,19 @@ class CardPaymentActivity : AppCompatActivity() {
         val editTextCVV = findViewById<EditText>(R.id.editTextCVV)
         val buttonSubmitPayment = findViewById<Button>(R.id.buttonSubmitPayment)
 
+        // Retrieve the username passed from LoginActivity
+        val username = intent.getStringExtra("USERNAME")
+
         buttonSubmitPayment.setOnClickListener {
             val cardNumber = editTextCardNumber.text.toString()
             val expiryDate = editTextExpiryDate.text.toString()
             val cvv = editTextCVV.text.toString()
 
+            // Retrieve the amount to pay from the intent extras
+            val amountToPay = intent.getIntExtra("AMOUNT_TO_PAY", 150) // 150 is the default value if "AMOUNT_TO_PAY" is not found
+
+            // Initialize the DBHelper
+            val dbHelper = DBHelper(this)
 
             if (validateCardNumber(cardNumber) && validateExpiryDate(expiryDate) && validateCVV(cvv)) {
                 // Payment successful
@@ -33,6 +41,8 @@ class CardPaymentActivity : AppCompatActivity() {
 
                 // Navigate to feedback screen
                 startActivity(Intent(this, Feedback::class.java))
+                val safeUsername = username ?: "" // If username is null, use an empty string
+                dbHelper.insertPaymentData(safeUsername, amountToPay, "Cash") // Store payment details in the database
                 finish() // Finish this activity to prevent going back to it from the feedback screen
             } else {
                 Toast.makeText(this, "Invalid card details", Toast.LENGTH_SHORT).show()
@@ -45,7 +55,6 @@ class CardPaymentActivity : AppCompatActivity() {
         val textViewAmount = findViewById<TextView>(R.id.textViewAmount)
         textViewAmount.text = getString(R.string.amount_to_pay_format, amountToPay)
     }
-
 
     private fun validateCardNumber(cardNumber: String): Boolean {
         // Check if the card number has exactly 12 digits

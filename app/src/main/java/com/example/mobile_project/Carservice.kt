@@ -17,23 +17,30 @@ class Carservice : AppCompatActivity() {
         // Initialize the DBHelper
         val dbHelper = DBHelper(this)
 
+        val editTextUsername = findViewById<EditText>(R.id.edittextusername)
         val editTextAddress = findViewById<EditText>(R.id.editTextAddress)
-        val editTextUsername = findViewById<EditText>(R.id.editTextUsername)
+        val editTextProblem = findViewById<EditText>(R.id.editTextProblem)
         val editTextPhoneNumber = findViewById<EditText>(R.id.edittextphonenumber)
         val buttonSubmit = findViewById<Button>(R.id.buttonSubmit)
 
         buttonSubmit.setOnClickListener {
-            val address = editTextAddress.text.toString()
             val username = editTextUsername.text.toString()
+            val address = editTextAddress.text.toString()
+            val problem = editTextProblem.text.toString()
             val phoneNumber = editTextPhoneNumber.text.toString()
+
+            if (username.isEmpty()) {
+                editTextUsername.error = "Username cannot be empty"
+                return@setOnClickListener
+            }
 
             if (address.isEmpty()) {
                 editTextAddress.error = "Address cannot be empty"
                 return@setOnClickListener
             }
 
-            if (username.isEmpty()) {
-                editTextUsername.error = "Username cannot be empty"
+            if (problem.isEmpty()) {
+                editTextProblem.error = "Problem cannot be empty"
                 return@setOnClickListener
             }
 
@@ -48,7 +55,7 @@ class Carservice : AppCompatActivity() {
             }
 
             // Insert data into the database
-            val success = dbHelper.insertServiceRequest(address, username, phoneNumber)
+            val success = dbHelper.insertServiceRequest(username, address, problem, phoneNumber)
             if (success) {
                 Toast.makeText(this, "Data successfully submitted", Toast.LENGTH_SHORT).show()
 
@@ -59,10 +66,10 @@ class Carservice : AppCompatActivity() {
                 Toast.makeText(this, "Failed to submit data", Toast.LENGTH_SHORT).show()
             }
 
-
             // Clear EditText fields after submission
-            editTextAddress.text.clear()
             editTextUsername.text.clear()
+            editTextAddress.text.clear()
+            editTextProblem.text.clear()
             editTextPhoneNumber.text.clear()
         }
     }

@@ -21,10 +21,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.523" />
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextProblem"
         android:layout_width="321dp"
         android:layout_height="66dp"
         android:hint="Describe the Problem"
@@ -33,9 +33,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.243" />
+        app:layout_constraintVertical_bias="0.372" />
 
     <Button
         android:id="@+id/buttonSubmit"
@@ -51,22 +52,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintVertical_bias="0.837" />
 
     <EditText
         android:id="@+id/edittextphonenumber"
         android:layout_width="318dp"
         android:layout_height="62dp"
+        android:hint="Enter your Phone Number"
         android:inputType="text"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:hint="Enter your Phone Number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintVertical_bias="0.684" />
 
     <TextView
         android:id="@+id/textView11"
@@ -95,6 +96,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.087" />
+
+    <EditText
+        android:id="@+id/edittextusername"
+        android:layout_width="321dp"
+        android:layout_height="66dp"
+        android:hint="Enter username"
+        android:inputType="text"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
