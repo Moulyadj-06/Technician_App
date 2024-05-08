@@ -33,4 +33,5 @@ class CashPaymentActivity : AppCompatActivity() {
         val textViewAmount = findViewById<TextView>(R.id.textViewAmount)
         textViewAmount.text = getString(R.string.amount_to_pay_format, amountToPay)
     }
+
 }
