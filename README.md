@@ -1,1 +1,1 @@
-Developed by Moulyashree DJ
+This project is developed by Moulyashree DJ, leveraging the power of Kotlin for Android application development and SQLite for local database management. The combination of these technologies ensures a robust and efficient application, optimized for performance and ease of use.
